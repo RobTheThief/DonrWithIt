@@ -28,4 +28,4 @@ export default function app() {
     //<ViewImageScreen />; <AppText>I love React!!</AppText> <MaterialCommunityIcons name="email" size={200} color="tomato" /> <WelcomeScreen />
   );
 }
-//thinger
+//thin
