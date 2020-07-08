@@ -1,31 +1,32 @@
-import React, { useState } from "react";
-import { View, TextInput, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import * as ImagePicker from "expo-image-picker";
+import * as Permissions from "expo-permissions";
 
 import Screen from "./app/components/Screen";
-import AppTextInput from "./app/components/AppTextInput";
-import AppPicker from "./app/components/AppPicker";
+import { Button, Image } from "react-native";
 
-const categories = [
-  { label: "Furniture", value: 1 },
-  { label: "Clothing", value: 2 },
-  { label: "Camera", value: 3 },
-];
+import ImageInputList from "./app/components/ImageInputList";
 
 export default function app() {
   console.log("App Running!!");
 
-  const [category, setCategory] = useState(categories[0]);
+  const [imageUris, setImageUris] = useState([]);
+
+  const handleAdd = (uri) => {
+    setImageUris([...imageUris, uri]);
+  };
+
+  const handleRemove = (uri) => {
+    setImageUris(imageUris.filter((imageUri) => imageUri == !uri));
+  };
 
   return (
     <Screen>
-      <AppPicker
-        selectedItem={category}
-        onSelectItem={(item) => setCategory(item)}
-        items={categories}
-        icon="apps"
-        placeholder="Category"
+      <ImageInputList
+        imageUris={imageUris}
+        onAddImage={handleAdd}
+        onRemoveImage={handleRemove}
       />
-      <AppTextInput icon="email" placeholder="Email" icon="email" />
     </Screen>
   );
 }

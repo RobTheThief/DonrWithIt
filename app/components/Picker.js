@@ -10,16 +10,26 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import defaultStyles from "../config/styles";
-import AppText from "../components/AppText";
-import Screen from "../components/Screen";
-import PickerItem from "../components/PickerItem";
+import AppText from "./Text";
+import Screen from "./Screen";
+import PickerItem from "./PickerItem";
+import colors from "../config/colors";
 
-function AppPicker({ icon, items, onSelectItem, placeholder, selectedItem }) {
+function Picker({
+  icon,
+  items,
+  numberOfColumns = 1,
+  onSelectItem,
+  placeholder,
+  PickerItemComponent = PickerItem,
+  selectedItem,
+  width = "100%",
+}) {
   const [modalVisable, setModalVisable] = useState(false);
   return (
     <>
       <TouchableWithoutFeedback onPress={() => setModalVisable(true)}>
-        <View style={styles.container}>
+        <View style={[styles.container, { width }]}>
           {icon && (
             <MaterialCommunityIcons
               name={icon}
@@ -28,9 +38,11 @@ function AppPicker({ icon, items, onSelectItem, placeholder, selectedItem }) {
               style={styles.icon}
             />
           )}
-          <AppText style={styles.text}>
-            {selectedItem ? selectedItem.label : placeholder}
-          </AppText>
+          {selectedItem ? (
+            <AppText style={styles.text}>{selsectedItem.label}</AppText>
+          ) : (
+            <AppText style={styles.placeholder}>{placeholder}</AppText>
+          )}
           <MaterialCommunityIcons
             name="chevron-down"
             size={20}
@@ -44,8 +56,10 @@ function AppPicker({ icon, items, onSelectItem, placeholder, selectedItem }) {
           <FlatList
             data={items}
             keyExtractor={(item) => item.value.toString()}
+            numColumns={numberOfColumns}
             renderItem={({ item }) => (
-              <PickerItem
+              <PickerItemComponent
+                item={item}
                 label={item.label}
                 onPress={() => {
                   setModalVisable(false);
@@ -65,16 +79,19 @@ const styles = StyleSheet.create({
     backgroundColor: defaultStyles.colors.light,
     borderRadius: 25,
     flexDirection: "row",
-    width: "100%",
     padding: 15,
     marginVertical: 10,
   },
   icon: {
     marginRight: 10,
   },
+  placeholder: {
+    color: defaultStyles.colors.medium,
+    flex: 1,
+  },
   text: {
     flex: 1,
   },
 });
 
-export default AppPicker;
+export default Picker;
