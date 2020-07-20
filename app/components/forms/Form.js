@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik } from "formik";
 
-function AppForm({ onSubmit, initialValues, validationSchema, children }) {
+function AppForm({ initialValues, onSubmit, validationSchema, children }) {
   return (
     <Formik
       initialValues={initialValues}

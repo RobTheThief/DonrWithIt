@@ -1,34 +1,34 @@
 import React, { useState } from "react";
 import {
-  StyleSheet,
   View,
-  Modal,
+  StyleSheet,
   TouchableWithoutFeedback,
+  Modal,
   Button,
   FlatList,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
+import Text from "./Text";
 import defaultStyles from "../config/styles";
-import AppText from "./Text";
-import Screen from "./Screen";
 import PickerItem from "./PickerItem";
-import colors from "../config/colors";
+import Screen from "./Screen";
 
-function Picker({
+function AppPicker({
   icon,
   items,
   numberOfColumns = 1,
   onSelectItem,
-  placeholder,
   PickerItemComponent = PickerItem,
+  placeholder,
   selectedItem,
   width = "100%",
 }) {
-  const [modalVisable, setModalVisable] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <>
-      <TouchableWithoutFeedback onPress={() => setModalVisable(true)}>
+      <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
         <View style={[styles.container, { width }]}>
           {icon && (
             <MaterialCommunityIcons
@@ -39,10 +39,11 @@ function Picker({
             />
           )}
           {selectedItem ? (
-            <AppText style={styles.text}>{selsectedItem.label}</AppText>
+            <Text style={styles.text}>{selectedItem.label}</Text>
           ) : (
-            <AppText style={styles.placeholder}>{placeholder}</AppText>
+            <Text style={styles.placeholder}>{placeholder}</Text>
           )}
+
           <MaterialCommunityIcons
             name="chevron-down"
             size={20}
@@ -50,9 +51,9 @@ function Picker({
           />
         </View>
       </TouchableWithoutFeedback>
-      <Modal visible={modalVisable} animationType="slide">
+      <Modal visible={modalVisible} animationType="slide">
         <Screen>
-          <Button title="Close" onPress={() => setModalVisable(false)} />
+          <Button title="Close" onPress={() => setModalVisible(false)} />
           <FlatList
             data={items}
             keyExtractor={(item) => item.value.toString()}
@@ -62,7 +63,7 @@ function Picker({
                 item={item}
                 label={item.label}
                 onPress={() => {
-                  setModalVisable(false);
+                  setModalVisible(false);
                   onSelectItem(item);
                 }}
               />
@@ -94,4 +95,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Picker;
+export default AppPicker;
