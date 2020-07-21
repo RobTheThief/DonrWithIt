@@ -17,6 +17,23 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.robthethief.donrwithit",
+      "versionCode": 1
+    },
+    "extra": {
+      "bugsnag": {
+        "apiKey": "a005d53e725363b64538a10999f0d4c6"
+      }
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "@bugsnag/expo/hooks/post-publish.js",
+          "config": {}
+        }
+      ]
     }
   }
 }
